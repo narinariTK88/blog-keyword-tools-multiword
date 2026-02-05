@@ -1,0 +1,34 @@
+name: Get Google Suggestions
+
+on:
+  workflow_dispatch: # 手動実行ボタン
+  push:
+    paths:
+      - 'keywords.txt' # keywords.txtが変わった時だけ動く
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 実行結果をリポジトリに書き込むために必須
+    steps:
+      - uses: actions/checkout@v4 # リポジトリからコードを持ってくる
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install requests pandas
+
+      - name: Run script
+        run: python main.py
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/
+          git commit -m "Auto-save suggest results" || exit 0
+          git push
