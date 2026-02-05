@@ -1,0 +1,36 @@
+name: Combine All CSVs
+
+on:
+  workflow_dispatch: # 手動実行ボタンのみ
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install pandas
+
+      - name: Run Combine Script
+        run: python combine_results.py
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add summary/
+          git fetch origin main
+          git reset --mixed origin/main
+          git add summary/
+          git commit -m "Generate combined CSV" || exit 0
+          git push origin main --force-with-lease
