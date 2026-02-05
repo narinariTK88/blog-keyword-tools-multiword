@@ -1,2 +1,24 @@
 # blog-keyword-tools-multiword
-read keyword-list file and get all suggest word of the file
+
+Google検索のサジェストキーワードを「あ〜ん」「a〜z」「0〜9」の組み合わせで一括取得し、ブログのネタ探しを自動化するツールです。
+
+## 🛠 仕組み
+1. `keywords.txt` に書かれたキーワードを読み込みます。
+2. 各キーワードに対して、Google検索窓に「キーワード + あ」「キーワード + い」...と入力した際に表示されるサジェストを取得します。
+3. 結果を `data/年-月/` フォルダ内にCSV形式で自動保存します。
+
+## 📂 ディレクトリ構成
+- `keywords.txt`: 調査したいキーワードを記述するファイル（1行1ワード）
+- `main.py`: キーワード取得用のPythonスクリプト
+- `data/`: 取得したCSV結果が月別に保存されるフォルダ
+- `.github/workflows/`: GitHub Actionsの自動実行設定
+
+## 🚀 使い方
+
+### 1. キーワードを追加する
+`keywords.txt` に、調査したいキーワードを1行ずつ入力して保存（コミット）してください。
+（例）
+```text
+キャンプ飯
+ブログ 始め方
+投資 初心者
