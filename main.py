@@ -25,7 +25,7 @@ def run():
             [chr(i) for i in range(ord('a'), ord('z')+1)] + \
             [str(i) for i in range(10)]
 
-    # フィルタリングしたいインテント修飾語
+    # 抽出したいインテント修飾語
     treasure_words = [
         "おすすめ", "比較", "やり方", "始め方", "初心者", "レビュー", 
         "とは", "理由", "仕組み", "作り方", "最安値", "ランキング", "選び方", "違い"
@@ -57,7 +57,7 @@ def run():
             filename_all = f"{dir_path}/KW_{base}_{timestamp}.csv"
             df.to_csv(filename_all, index=False, encoding="utf-8-sig")
 
-            # 2. お宝（インテント）抽出保存
+            # 2. インテント抽出保存（お宝ワード）
             df_treasure = df[df['サジェスト'].str.contains('|'.join(treasure_words))]
             if not df_treasure.empty:
                 filename_t = f"{dir_path}/TREASURE_{base}_{timestamp}.csv"
